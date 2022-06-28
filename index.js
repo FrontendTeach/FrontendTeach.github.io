@@ -1,82 +1,84 @@
-const TYPES = {
-    html: 'html',
-    css: 'css',
-    js: 'js'
-};
+import { generateDescription } from './description.js';
+import { TikTakToe } from './tik-tak-toe.js';
 
-function restoreDisplay() {
-    var lastShown = localStorage.getItem('lastShown');
+export class Homework {
+    tikTakToeInstance;
+    lastChapterTypeOpenedKey = 'lastChapterTypeOpened';
 
-    if (lastShown) {
-        toggleDisplay('nav', lastShown);
+    constructor() {
+        // Get the last page that was selected before refresh and restore it
+        this.restoreDisplay();
+
+        // when clicking the back button we need to hide the content and show the menu
+        document.getElementById('backButton').addEventListener('click', () => {
+            this.toggleDisplay({
+                hideNav: false,
+                type: localStorage.getItem(this.lastChapterTypeOpenedKey)
+            });
+        })
+
+        document.querySelectorAll('.chapter').forEach((chapter) => {
+            chapter.addEventListener('click', () => {
+                this.openAssignment(chapter.id);
+            })
+        })
     }
-}
 
-function toggleDisplay(toHideSelector, toShowSelector) {
-    const show = document.getElementById(toShowSelector);
+    restoreDisplay = () => {
+        const lastChapterTypeOpened = localStorage.getItem(this.lastChapterTypeOpenedKey);
 
-    document.getElementById(toHideSelector).classList.add('hide');
-    show.classList.remove('hide');
-
-    if (toShowSelector !== 'nav') {
-        localStorage.setItem('lastShown', toShowSelector);
-        document.getElementById('back').classList.remove('hide');
-    } else {
-        localStorage.removeItem('lastShown');
-        document.getElementById('back').classList.add('hide');
+        if (lastChapterTypeOpened) {
+            this.toggleDisplay({
+                hideNav: true,
+                type: lastChapterTypeOpened
+            });
+        }
     }
-}
 
-function openAssignment(type) {
-    toggleDisplay('nav', `${type}Assignment`)
-}
+    toggleDisplay = ({
+        hideNav,
+        type
+    }) => {
+        const show = document.getElementById(hideNav ? 'assignment' : 'nav');
+        const hide = document.getElementById(hideNav ? 'nav' : 'assignment');
 
-function generateHTMLCells(row) {
-    for (let j = 0; j < 3; j++) {
-        let cell = document.createElement('span');
-        cell.innerHTML = ' BOX ';
+        show.classList.remove('hide');
+        hide.classList.add('hide');
 
-        row.appendChild(cell);
-    }
-}
+        if (hideNav) {
+            // save what's currently on the screen to keep on refresh
+            localStorage.setItem(this.lastChapterTypeOpenedKey, type);
+            // show the back button
+            document.getElementById('back').classList.remove('hide');
+            // show description for current assignment
+            document.getElementById('description').classList.remove('hide');
 
-function generateCSSCells(row, i) {
-    row.classList.add('row');
-    
-    for (let j = 0; j < 3; j++) {
-        let cell = document.createElement('div');
-        cell.classList.add('cell');
+            // instantiate the game
+            this.tikTakToeInstance = new TikTakToe(type);
+        } else {
+            // remove the lastChapterTypeOpened from localstorage since you're on home here
+            localStorage.removeItem(this.lastChapterTypeOpenedKey);
+            // hide the back button
+            document.getElementById('back').classList.add('hide');
+            // hide description
+            document.getElementById('description').classList.add('hide');
 
-        cell.setAttribute('data-row', i);
-        cell.setAttribute('data-col', j);
-        row.appendChild(cell);
-    }
-}
+            // Reset the TikTakToe game
+            document.getElementById('assignment').innerHTML = '';
 
-function generateTikTakToeLayout(rootSelector, type) {
-    let parent = document.createElement('div');
-    parent.classList.add('tiktaktoe');
-
-    for (let i = 0; i < 3; i++) {
-        let row = document.createElement('div');
-
-        if (type === TYPES.html) {
-            generateHTMLCells(row);
-        } else if (type === TYPES.css) {
-            generateCSSCells(row, i);
+            // Set to null the current instance so it can be garbage collected.
+            this.tikTakToeInstance = null;
         }
 
-        parent.appendChild(row);
+        generateDescription(localStorage.getItem(this.lastChapterTypeOpenedKey));
     }
 
-    rootSelector.appendChild(parent);
+    openAssignment = (type) => {
+        this.toggleDisplay({
+            hideNav: true,
+            type
+        });
+    }
 }
 
-function init() {
-    restoreDisplay();
-
-    generateTikTakToeLayout(document.getElementById('htmlAssignment'), TYPES.html);
-    generateTikTakToeLayout(document.getElementById('cssAssignment'), TYPES.css);
-}
-
-init();
+new Homework();

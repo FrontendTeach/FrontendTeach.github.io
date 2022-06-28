@@ -4,6 +4,11 @@
     url('public/fonts/Raleway-ExtraLight.ttf') format('truetype');
 }
 
+html {
+    height: fill-available;
+    height: -webkit-fill-available;
+}
+
 body {
     font-family: 'RalewayExtraLight', 'Helvetica Neue', 'Arial', sans-serif;
     text-align: center;
@@ -11,8 +16,11 @@ body {
 
     display: flex;
     flex-direction: column;
-    height: 100vh;
     justify-content: center;
+
+    min-height: 100vh;
+    min-height: fill-available;
+    min-height: -webkit-fill-available;
 }
 
 .link {
@@ -24,12 +32,21 @@ body {
     justify-content: center;
 }
 
+.row:nth-of-type(1) {
+    margin-top: 20px;
+}
+
 .cell {
     width: 100px;
     height: 100px;
     border: 1px solid black;
     margin-top: -1px;
     margin-left: -1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    font-weight: 600;
 }
 
 .cell[data-row="0"][data-col="0"] {
@@ -54,4 +71,13 @@ body {
 
 .hide  {
     display: none;
+}
+
+#description {
+    max-width: 500px;
+    border: 1px solid black;
+    font-weight: 600;
+    border-radius: 25px;
+    margin: 20px auto 0;
+    padding: 0 20px;
 }

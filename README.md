@@ -21,3 +21,5 @@ on how to develop a javascript application.
 There are a lot of improvements that can be done to implement those results, and we will be going through each of them lesson by lesson.
 
 ### !! FOR NOW IT'S WIP !!
+
+You can find the website up & running at [FrontendTeach.github.io](https://FrontendTeach.github.io)

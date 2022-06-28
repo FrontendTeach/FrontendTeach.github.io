@@ -4,30 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>HTML/CSS/JS Homework</title>
     <link rel="stylesheet" href="index.css">
-    <script defer src="index.js"></script>
+    <script defer type="module" src="index.js"></script>
 </head>
 <body>
+    <div class="nav" id="nav">
+        <div class="link"><a class="chapter" id="html" href="javascript:void(0)">HTML Assignment</a></div>
+        <div class="link"><a class="chapter" id="css" href="javascript:void(0)">CSS Assignment</a></div>
+        <div class="link"><a class="chapter" id="js1" href="javascript:void(0)">JS Assignment 1</a></div>
+        <div class="link"><a class="chapter" id="js2" href="javascript:void(0)">JS Assignment 2</a></div>
+    </div>
+    
     <div class="link hide" id="back">
-        <a href="javascript:void(0)" onclick="toggleDisplay(localStorage.getItem('lastShown'), 'nav')">
+        <a id="backButton" href="javascript:void(0)">
             Back
         </a>
     </div>
+    <div class="hide" id="assignment"></div>
 
-    <div class="nav" id="nav">
-        <div class="link"><a href="javascript:void(0)" onclick="openAssignment('html')">HTML Assignment</a></div>
-        <div class="link"><a href="javascript:void(0)" onclick="openAssignment('css')">CSS Assignment</a></div>
-        <div class="link"><a href="javascript:void(0)" onclick="openAssignment('js')">JS Assignment</a></div>
-    </div>
-    
-    <div class="assignment hide" id="htmlAssignment">
-    </div>
-
-    <div class="assignment hide" id="cssAssignment">
-    </div>
-
-    <div class="assignment hide" id="jsAssignment">
-    </div>
+    <div class="hide" id="description"></div>
 </body>
 </html>
