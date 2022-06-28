@@ -1,3 +1,9 @@
+const TYPES = {
+    html: 'html',
+    css: 'css',
+    js: 'js'
+};
+
 function restoreDisplay() {
     var lastShown = localStorage.getItem('lastShown');
 
@@ -16,6 +22,7 @@ function toggleDisplay(toHideSelector, toShowSelector) {
         localStorage.setItem('lastShown', toShowSelector);
         document.getElementById('back').classList.remove('hide');
     } else {
+        localStorage.removeItem('lastShown');
         document.getElementById('back').classList.add('hide');
     }
 }
@@ -24,22 +31,39 @@ function openAssignment(type) {
     toggleDisplay('nav', `${type}Assignment`)
 }
 
-function generateTikTakToeLayout(rootSelector) {
+function generateHTMLCells(row) {
+    for (let j = 0; j < 3; j++) {
+        let cell = document.createElement('span');
+        cell.innerHTML = ' BOX ';
+
+        row.appendChild(cell);
+    }
+}
+
+function generateCSSCells(row, i) {
+    row.classList.add('row');
+    
+    for (let j = 0; j < 3; j++) {
+        let cell = document.createElement('div');
+        cell.classList.add('cell');
+
+        cell.setAttribute('data-row', i);
+        cell.setAttribute('data-col', j);
+        row.appendChild(cell);
+    }
+}
+
+function generateTikTakToeLayout(rootSelector, type) {
     let parent = document.createElement('div');
     parent.classList.add('tiktaktoe');
 
-    for (let i = 0; i < 3; i ++) {
+    for (let i = 0; i < 3; i++) {
         let row = document.createElement('div');
-        row.classList.add('row');
 
-        for (let j = 0; j < 3; j ++) {
-            let cell = document.createElement('span');
-            cell.classList.add('cell');
-            cell.innerHTML = ' BOX ';
-
-            cell.setAttribute('data-row', i);
-            cell.setAttribute('data-col', j);
-            row.appendChild(cell);
+        if (type === TYPES.html) {
+            generateHTMLCells(row);
+        } else if (type === TYPES.css) {
+            generateCSSCells(row, i);
         }
 
         parent.appendChild(row);
@@ -51,7 +75,8 @@ function generateTikTakToeLayout(rootSelector) {
 function init() {
     restoreDisplay();
 
-    generateTikTakToeLayout(document.getElementById('htmlAssignment'));
+    generateTikTakToeLayout(document.getElementById('htmlAssignment'), TYPES.html);
+    generateTikTakToeLayout(document.getElementById('cssAssignment'), TYPES.css);
 }
 
 init();
