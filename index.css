@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'RalewayExtraLight';
+    src: url('public/fonts/Raleway-ExtraLight.ttf') format('ttf'),
+    url('public/fonts/Raleway-ExtraLight.ttf') format('truetype');
+}
+
+body {
+    font-family: 'RalewayExtraLight', 'Helvetica Neue', 'Arial', sans-serif;
+    text-align: center;
+    margin: 20px;
+
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+}
+
+.link {
+    margin-bottom: 20px;
+}
+
+.hide  {
+    display: none;
+}
